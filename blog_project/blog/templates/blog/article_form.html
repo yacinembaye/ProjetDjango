@@ -1,0 +1,53 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+    {% if form.instance.pk %}Modifier l'article{% else %}Nouvel article{% endif %} - Mon Blog Django
+{% endblock %}
+
+{% block content %}
+    <h2>{% if form.instance.pk %}Modifier l'article{% else %}Nouvel article{% endif %}</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.titre.id_for_label }}">Titre:</label>
+            {{ form.titre }}
+            {% if form.titre.errors %}
+                <div class="form-error">{{ form.titre.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.contenu.id_for_label }}">Contenu:</label>
+            {{ form.contenu }}
+            {% if form.contenu.errors %}
+                <div class="form-error">{{ form.contenu.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.auteur.id_for_label }}">Auteur:</label>
+            {{ form.auteur }}
+            {% if form.auteur.errors %}
+                <div class="form-error">{{ form.auteur.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.image.id_for_label }}">Image:</label>
+            {% if form.instance.image %}
+                <p>Image actuelle: <a href="{{ form.instance.image.url }}" target="_blank">Voir l'image</a></p>
+            {% endif %}
+            {{ form.image }}
+            {% if form.image.errors %}
+                <div class="form-error">{{ form.image.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="{% url 'article_list' %}" class="btn btn-cancel">Annuler</a>
+        </div>
+    </form>
+{% endblock %}

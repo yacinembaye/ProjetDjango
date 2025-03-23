@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ article.titre }} - Mon Blog Django{% endblock %}
+
+{% block content %}
+    <article class="article-detail">
+        <h2>{{ article.titre }}</h2>
+        <p class="article-meta">Publié par {{ article.auteur }} le {{ article.date_publication|date:"d F Y à H:i" }}</p>
+
+        {% if article.image %}
+            <div class="article-image">
+                <img src="{{ article.image.url }}" alt="{{ article.titre }}">
+            </div>
+        {% endif %}
+
+        <div class="article-content">
+            {{ article.contenu|linebreaks }}
+        </div>
+
+        {% if user.is_authenticated %}
+{#            <div class="admin-actions">#}
+{#                <a href="{% url 'article_edit' article.pk %}" class="btn btn-edit">Modifier</a>#}
+{#                <a href="{% url 'article_delete' article.pk %}" class="btn btn-delete">Supprimer</a>#}
+{#            </div>#}
+        {% endif %}
+
+        <a href="{% url 'article_list' %}" class="btn btn-back">Retour à la liste des articles</a>
+    </article>
+{% endblock %}

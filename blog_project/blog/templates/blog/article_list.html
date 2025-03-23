@@ -1,0 +1,53 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Accueil - Mon Blog Django{% endblock %}
+
+{% block content %}
+    <h2>Articles récents</h2>
+
+    {% if articles %}
+        <div class="articles">
+            {% for article in articles %}
+                <article class="article-card">
+                    {% if article.image %}
+                        <div class="article-image">
+                            <img src="{{ article.image.url }}" alt="{{ article.titre }}">
+                        </div>
+                    {% endif %}
+                    <div class="article-content">
+                        <h3><a href="{% url 'article_detail' article.pk %}">{{ article.titre }}</a></h3>
+                        <p class="article-meta">Publié par {{ article.auteur }} le {{ article.date_publication|date:"d F Y" }}</p>
+                        <p class="article-excerpt">{{ article.contenu|truncatewords:30 }}</p>
+                        <a href="{% url 'article_detail' article.pk %}" class="read-more">Lire la suite</a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+
+        {% if is_paginated %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">Premier</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Précédent</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Suivant</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Dernier</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% else %}
+        <p>Aucun article n'a été publié pour le moment.</p>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <div class="admin-actions">
+{#            <a href="{% url 'article_new' %}" class="btn btn-primary">Rédiger un nouvel article</a>#}
+        </div>
+    {% endif %}
+{% endblock %}

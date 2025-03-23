@@ -1,0 +1,20 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Supprimer l'article - Mon Blog Django{% endblock %}
+
+{% block content %}
+    <h2>Confirmer la suppression</h2>
+
+    <div class="delete-confirmation">
+        <p>Êtes-vous sûr de vouloir supprimer l'article "{{ article.titre }}" ?</p>
+        <p class="warning">Cette action est irréversible !</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-delete">Confirmer la suppression</button>
+                <a href="{% url 'article_detail' article.pk %}" class="btn btn-cancel">Annuler</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mon Blog Django{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><a href="{% url 'article_list' %}">Accueil</a></h1>
+            <nav>
+                <ul>
+{#                    <li><a href="{% url 'article_list' %}">Accueil</a></li>#}
+                    {% if user.is_authenticated %}
+{#                        <li><a href="{% url 'article_new' %}">Nouvel Article</a></li>#}
+                        <li><a href="{% url 'admin:index' %}">Administration</a></li>
+                        <li><a href="{% url 'logout' %}">Déconnexion</a></li>
+                    {% else %}
+                        <li><a href="{% url 'admin:index' %}">Administration</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {% now "Y" %} - Blog Django</p>
+        </div>
+    </footer>
+</body>
+</html>
